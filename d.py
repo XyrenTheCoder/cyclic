@@ -11,7 +11,7 @@ starts = int(initial.strftime("%S"))
 
 user = "test0"
 
-def uptime():
+def ctime():
     getnow = datetime.now()
     t = getnow.strftime("%H:%M:%S")
     return t
