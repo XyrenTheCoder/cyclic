@@ -1,14 +1,16 @@
+import os, sys
+from grepfunc import grep
 from datetime import datetime
 
+cwd = os.getcwd()
+dirs = os.listdir(cwd)
 initial = datetime.now()
 
-global starttime, starth, startm, starts, user
-
+#global starttime, starth, startm, starts, user
 starttime = initial.strftime("%H:%M:%S")
 starth = int(initial.strftime("%H"))
 startm = int(initial.strftime("%M"))
 starts = int(initial.strftime("%S"))
-
 user = "test0"
 
 def ctime():
@@ -22,7 +24,10 @@ def welcome():
     else:
         return f"Good morning, {user}!"
 
-def main():
-    ...
+def check():
+    result = grep(dirs, "Plugins", w=True)
+    return result
+    
+def main(): ...
     
     
