@@ -2,12 +2,14 @@ from datetime import datetime
 
 initial = datetime.now()
 
-global starttime, starth, startm, starts
+global starttime, starth, startm, starts, user
 
 starttime = initial.strftime("%H:%M:%S")
 starth = int(initial.strftime("%H"))
 startm = int(initial.strftime("%M"))
 starts = int(initial.strftime("%S"))
+
+user = "test0"
 
 def uptime():
     getnow = datetime.now()
@@ -20,4 +22,7 @@ def welcome():
     else:
         return f"Good morning, {user}!"
 
-def ...
+def main():
+    ...
+    
+    
