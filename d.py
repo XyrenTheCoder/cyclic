@@ -3,7 +3,7 @@ from grepfunc import grep
 from datetime import datetime
 
 idir = os.getcwd()
-dirs = os.listdir(cwd)
+dirs = os.listdir(idir)
 initial = datetime.now()
 
 #global starttime, starth, startm, starts, user
