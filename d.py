@@ -45,9 +45,10 @@ while True:
     main()
     if a == "time": print(ctime())
     elif a == "searchx":
-        b = input("Search for: ")
+        b = input("(Absolute) Search for: ")
         result, count = searchx(b)
-        print(f"{count} results found:\n{result}")
+        if count == 1: print(f"{count} result found:\n{result}")
+        else: print(f"{count} results found:\n{result}")
     elif a == "clear": clear()
     elif a == "cwd": print(os.getcwd())
     elif a == "debug":
