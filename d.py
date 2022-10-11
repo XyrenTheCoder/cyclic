@@ -64,4 +64,4 @@ while True:
         inc()
         print(f"{c}-{a}")
         #inc()
-    else: print(f"System: Invalid command: {a})
+    else: print(f"System: Invalid command: {a}")
