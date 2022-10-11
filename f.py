@@ -45,7 +45,7 @@ def search(arg, flag=None):
         result = grep(dirs, arg, x=True, i=True)
         count = grep(dirs, arg, x=True, i=True, c=True)
     elif flag == "iw" or flag == "wi":
-        result = grep(dirs, arg, w=True, =True, i=True)
+        result = grep(dirs, arg, w=True, i=True)
         count = grep(dirs, arg, w=True, i=True, c=True)
     elif flag == "wx" or flag == "xw":
         result = grep(dirs, arg, w=True, x=True)
