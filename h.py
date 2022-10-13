@@ -5,6 +5,7 @@ from datetime import datetime
 class FlagError(Exception): pass
 class MissingRequiredArgument(Exception): pass
 class ArgumentError(Exception): pass
+class NoCommandError(Exception): pass
     
 idir = os.getcwd()
 dirs = os.listdir(idir)
@@ -16,6 +17,23 @@ starth = int(initial.strftime("%H"))
 startm = int(initial.strftime("%M"))
 starts = int(initial.strftime("%S"))
 
+def help(query=None):
+    global cmds
+    cmds = ["help", "uptime", "time", "cwd", "search", "history", "clear", "exit"]
+    cmds.sort()
+    try: 
+        if query == None: print("\n".join(cmds) + "\n\n-Use help <command> to get detailed information-")
+        elif query == "help": print("help - no description provided.")
+        elif query == "uptime": print("uptime - elapsed time of this program.")
+        elif query == "time": print("time - current time.")
+        elif query == "cwd": print("cwd - currently working directory.")
+        elif query == "search": print("search - file searching.")
+        elif query == "history": print("history - command history.")
+        elif query == "clear": print("clear - clean up display.")
+        elif query == "exit": print("exit - exit program.")
+        else: raise NoCommandError
+    except NoCommandError: print("Help: NoCommandError: No such command.")
+            
 def ctime():
     global getnow
     getnow = datetime.now()
@@ -125,9 +143,18 @@ while True:
         c += 1
         print(f"{c}-{starttime}")
         c += 1
-        print(f"{c}-{a}")
+        print(f"{c}-{trim}")
         c += 1
         print(f"{c}-{uptime()}")
         c += 1
         print(f"{c}-{history()}")
+    elif "help" in trim:
+        try:
+            s = trim.split()
+            if len(s) > 2: raise ArgumentError
+            elif len(s) == 2:
+                arg = s[1]
+                query = help(arg)
+            else: help()
+        except ArgumentError: print("Help: ArgumentError: Too many arguments.")
     else: print(f"System: Invalid command: {trim}")
