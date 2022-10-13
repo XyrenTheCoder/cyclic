@@ -6,21 +6,20 @@ class FlagError(Exception): pass
 class MissingRequiredArgument(Exception): pass
 class ArgumentError(Exception): pass
 class NoCommandError(Exception): pass
+class InvalidArgument(Exception): pass
     
 idir = os.getcwd()
 dirs = os.listdir(idir)
 initial = datetime.now()
 
-global starttime, starth, startm, starts
+global starttime, starth, startm, starts, cmds
 starttime = initial.strftime("%H:%M:%S")
 starth = int(initial.strftime("%H"))
 startm = int(initial.strftime("%M"))
 starts = int(initial.strftime("%S"))
-
+cmds = ["help", "uptime", "time", "cwd", "search", "history", "clear", "exit", "ls"]
+cmds.sort()
 def help(query=None):
-    global cmds
-    cmds = ["help", "uptime", "time", "cwd", "search", "history", "clear", "exit"]
-    cmds.sort()
     try: 
         if query == None: print("\n".join(cmds) + "\n\n-Use help <command> to get detailed information-")
         elif query == "help": print("help - no description provided.")
@@ -31,9 +30,36 @@ def help(query=None):
         elif query == "history": print("history - command history.")
         elif query == "clear": print("clear - clean up display.")
         elif query == "exit": print("exit - exit program.")
+        elif query == "ls": print("ls - list directory contents.")
         else: raise NoCommandError
     except NoCommandError: print("Help: NoCommandError: No such command.")
-            
+
+def ls(arg=None):
+    j = os.getcwd()
+    k = os.listdir(j)
+    l = []
+    if arg == None:
+        for i in k:
+            if i.startswith("."): pass
+            else: l.append(i)
+        l.sort()
+        return print("\n".join(l))
+    elif arg == "-a":
+        l.extend([".", ".."])
+        l.extend(k)
+        l.sort()
+        return print("\n".join(l))
+    elif arg == "-A":
+        k.sort()
+        return print("\n".join(k))
+    elif arg == "-m":
+        for i in k:
+            if i.startswith("."): pass
+            else: l.append(i)
+        l.sort()
+        return print(", ".join(l))
+    else: raise InvalidArgument
+        
 def ctime():
     global getnow
     getnow = datetime.now()
@@ -102,9 +128,11 @@ def main():
 
 while True:
     main()
+    n = trim.split()
     if len(trim) < 1: pass
+    elif n[0] not in cmds: print(f"Invalid command: {trim}")
     elif trim == "time": print(ctime())
-    elif "search" in trim:
+    elif "search" in trim and not trim.startswith("help"):
         try:
             s = trim.split()
             if len(s) < 2: raise MissingRequiredArgument
@@ -117,7 +145,7 @@ while True:
                 result, count = search(tar, flag)
             print(f"{count} results found:\n"+"\n".join(result))
         except TypeError: pass
-        except MissingRequiredArgument: print("Search: MissingRequiredArgument: Missing 1 or more arguments.")
+        except MissingRequiredArgument: print("search: MissingRequiredArgument: Missing 1 or more arguments.")
     elif trim == "clear": clear()
     elif trim == "exit": exit()
     elif trim == "cwd": print(os.getcwd())
@@ -130,6 +158,16 @@ while True:
     elif trim == "uptime":
         uh, um, us = uptime()
         print(f"{uh}h {um}m {us}s")
+    elif "ls" in trim and not trim.startswith("help"):
+        try:
+            s = trim.split()
+            if len(s) > 2: raise ArgumentError
+            elif len(s) == 2:
+                m = s[1]
+                arg = ls(m)
+            else: ls()
+        except ArgumentError: print("ls: ArgumentError: Too many arguments.")
+        except InvalidArgument: print("ls: InvalidArgument: Invalid arguments")
     elif trim == "debug":
         global c
         c = 0
@@ -148,6 +186,8 @@ while True:
         print(f"{c}-{uptime()}")
         c += 1
         print(f"{c}-{history()}")
+        c += 1
+        print(f"{c}-{ls()}")
     elif "help" in trim:
         try:
             s = trim.split()
@@ -156,5 +196,5 @@ while True:
                 arg = s[1]
                 query = help(arg)
             else: help()
-        except ArgumentError: print("Help: ArgumentError: Too many arguments.")
-    else: print(f"System: Invalid command: {trim}")
+        except ArgumentError: print("help: ArgumentError: Too many arguments.")
+    else: pass
