@@ -168,6 +168,7 @@ while True:
             else: ls()
         except ArgumentError: print("ls: ArgumentError: Too many arguments.")
         except InvalidArgument: print("ls: InvalidArgument: Invalid arguments")
+"""
     elif trim == "debug":
         global c
         c = 0
@@ -188,6 +189,7 @@ while True:
         print(f"{c}-{history()}")
         c += 1
         print(f"{c}-{ls()}")
+"""
     elif "help" in trim:
         try:
             s = trim.split()
