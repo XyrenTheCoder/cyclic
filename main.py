@@ -19,6 +19,7 @@ startm = int(initial.strftime("%M"))
 starts = int(initial.strftime("%S"))
 cmds = ["help", "uptime", "time", "cwd", "search", "history", "clear", "exit", "ls"]
 cmds.sort()
+
 def help(query=None):
     try: 
         if query == None: print("\n".join(cmds) + "\n\n-Use help <command> to get detailed information-")
